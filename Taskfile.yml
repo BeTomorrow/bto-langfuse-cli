@@ -1,0 +1,12 @@
+version: 3
+
+tasks:
+
+  build:
+    cmds:
+      - uv build
+
+  install:
+    deps: [build]
+    cmds:
+      - uv tool install --python 3.13.9 .

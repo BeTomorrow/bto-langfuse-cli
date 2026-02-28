@@ -1,0 +1,33 @@
+[project]
+name = "langfuse-cli"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+classifiers = ["Private :: Do Not Upload"]
+authors = [
+    { name = "Olivier Gauthier", email = "ogauthier@betomorrow.com" }
+]
+requires-python = "~=3.13.0"
+dependencies = [
+    "typer>=0.24.1",
+    "langfuse>=3.14.5",
+]
+
+[dependency-groups]
+dev = [
+    "ty>=0.0.17",
+    "pytest>=9.0.2",
+]
+
+[project.scripts]
+langfuse-cli = "langfuse_cli.cli:app"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11.0"]
+build-backend = "uv_build"
