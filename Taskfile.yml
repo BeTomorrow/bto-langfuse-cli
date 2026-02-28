@@ -6,7 +6,11 @@ tasks:
     cmds:
       - uv build
 
-  install:
+  install:local:
     deps: [build]
     cmds:
       - uv tool install --python 3.13.9 .
+
+  bump-minor:
+    cmds:
+      - uv version --bump patch

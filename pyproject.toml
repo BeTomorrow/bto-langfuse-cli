@@ -1,9 +1,8 @@
 [project]
 name = "langfuse-cli"
 version = "1.0.0"
-description = "Add your description here"
+description = "A set of CLI tools to interact with Langfuse, especially for prompt management."
 readme = "README.md"
-classifiers = ["Private :: Do Not Upload"]
 authors = [
     { name = "Olivier Gauthier", email = "ogauthier@betomorrow.com" }
 ]
