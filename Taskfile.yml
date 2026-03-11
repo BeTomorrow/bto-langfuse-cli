@@ -6,16 +6,20 @@ tasks:
     cmds:
       - rm -rf dist build *.egg-info .venv
 
-  deps:install:
+  install:
     cmds:
       - uv sync --all-packages
+
+  check:
+    cmds:
+      - uv run ty check
 
   build:
     deps: [clean]
     cmds:
       - uv build
 
-  install:local:
+  local-deploy:
     deps: [build]
     cmds:
       - uv tool install --python 3.13.9 .

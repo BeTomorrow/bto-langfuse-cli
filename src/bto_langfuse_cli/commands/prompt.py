@@ -6,7 +6,7 @@ from typing import Annotated
 
 import typer
 
-from bto_langfuse_cli.langfuse.langfuse_service import LangfuseService, Plan
+from bto_langfuse_cli.langfuse.langfuse_service import LangfuseService
 from bto_langfuse_cli.langfuse.print_plan import print_plan
 
 prompt_app = typer.Typer(help="Manage Langfuse prompts.")
@@ -23,8 +23,8 @@ def prompt_promote(
     """Promote a label to another label.
 
     Examples:
-      bto_langfuse-cli prompt promote dev uat                  → add uat label to all prompts with dev label. Ask before applying.
-      bto_langfuse-cli prompt promote dev uat --apply          → auto apply
+      bto_langfuse-cli prompt promote dev uat → add uat label to all prompts with dev label. Ask before applying.
+      bto_langfuse-cli prompt promote dev uat --apply → auto apply
     """
     langfuse = LangfuseService()
     from_label, to_label = args

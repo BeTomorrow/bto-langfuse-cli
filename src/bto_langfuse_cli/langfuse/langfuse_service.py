@@ -62,6 +62,8 @@ class LangfuseService:
 
     def apply(self, plan: Plan, tgt_label: str):
         for p in plan.added_prompts() + plan.updated_prompts():
+            if p.tgt_version is None:
+                continue
             labels = self._langfuse.get_prompt(name=p.name, version=p.tgt_version).labels
             if "latest" in labels:
                 labels.remove("latest")
@@ -70,6 +72,8 @@ class LangfuseService:
             self._langfuse.update_prompt(name=p.name, version=p.tgt_version, new_labels=labels)
 
         for p in plan.removed_prompts():
+            if p.src_version is None:
+                continue
             labels = self._langfuse.get_prompt(name=p.name, version=p.src_version).labels
             if "latest" in labels:
                 labels.remove("latest")
