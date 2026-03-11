@@ -2,7 +2,16 @@ version: 3
 
 tasks:
 
+  clean:
+    cmds:
+      - rm -rf dist build *.egg-info .venv
+
+  deps:install:
+    cmds:
+      - uv sync --all-packages
+
   build:
+    deps: [clean]
     cmds:
       - uv build
 
@@ -14,3 +23,7 @@ tasks:
   bump-minor:
     cmds:
       - uv version --bump patch
+
+  publish:
+    cmds:
+      - uv publish

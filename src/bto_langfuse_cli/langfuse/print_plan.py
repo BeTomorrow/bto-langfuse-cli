@@ -1,4 +1,4 @@
-from langfuse_cli.langfuse.promote_plan import Plan
+from bto_langfuse_cli.langfuse.promote_plan import Plan
 
 
 def print_plan(plan: Plan):

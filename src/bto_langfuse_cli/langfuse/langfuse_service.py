@@ -1,6 +1,6 @@
 import logging
 
-from langfuse_cli.langfuse.promote_plan import Plan
+from bto_langfuse_cli.langfuse.promote_plan import Plan
 from langfuse import get_client, Langfuse
 
 logger = logging.getLogger(__name__)

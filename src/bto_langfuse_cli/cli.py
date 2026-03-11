@@ -1,15 +1,15 @@
 from __future__ import annotations
 import typer
 from importlib import metadata
-from langfuse_cli.commands import prompt as prompt_commands
+from bto_langfuse_cli.commands import prompt as prompt_commands
 
-app = typer.Typer(name="langfuse-cli", help="Several tools to use Langfuse from terminal.")
+app = typer.Typer(name="bto-langfuse-cli", help="Several tools to use Langfuse from terminal.")
 app.add_typer(prompt_commands.prompt_app, name="prompt")
 
 def version_callback(value: bool):
     if value:
-        version = metadata.version("langfuse-cli")
-        typer.echo(f"langfuse-cli version: {version}")
+        version = metadata.version("bto-langfuse-cli")
+        typer.echo(f"bto-langfuse-cli version: {version}")
         raise typer.Exit()
 
 @app.callback()
