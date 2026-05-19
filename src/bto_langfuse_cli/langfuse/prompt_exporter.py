@@ -108,16 +108,16 @@ class MarkdownPromptExporter(PromptExporter):
             last_updated_at=meta.last_updated_at,
         )
 
-        if meta.type is PromptType.TEXT:
-            if not isinstance(prompt_client, TextPromptClient):
-                raise ValueError(f"Expected TextPromptClient for {meta.name}")
-            body = prompt_client.prompt
-        else:
-            if not isinstance(prompt_client, ChatPromptClient):
-                raise ValueError(f"Expected ChatPromptClient for {meta.name}")
-            body = self._serialize_chat_prompt(prompt_client)
+        match prompt_client:
+            case TextPromptClient():
+                body = prompt_client.prompt
+            case ChatPromptClient():
+                body = self._serialize_chat_prompt(prompt_client)
+            case _:
+                raise ValueError(
+                    f"Expected ChatPromptClient or TextPromptClient for {meta.name}"
+                )
 
         combined = f"{header}\n{body}\n"
         out_path.write_text(combined, encoding="utf-8")
         return out_path
-

@@ -21,18 +21,24 @@ class LangfuseService:
             logger.error("Authentication failed. Please check your credentials and host.")
             raise Exception("Authentication failed. Please check your credentials and host.")
 
-    def get_all_prompts_names(self, label: str | None = None, tag: str | None = None) -> set[str]:
+    def get_all_prompts_names(
+        self, label: str | None = None, tag: str | None = None
+    ) -> set[str]:
         prompt_ids = set()
         current_page = 1
         limit = 50
 
-        first_response = self._langfuse.api.prompts.list(label=label, tag=tag, limit=limit, page=current_page)
+        first_response = self._langfuse.api.prompts.list(
+            label=label, tag=tag, limit=limit, page=current_page
+        )
         remaining_pages = first_response.meta.total_pages - current_page
         current_page = first_response.meta.page + 1
         prompt_ids.update({p.name for p in first_response.data})
 
         while remaining_pages > 0:
-            next_response = self._langfuse.api.prompts.list(label=label, tag=tag, limit=limit, page=current_page)
+            next_response = self._langfuse.api.prompts.list(
+                label=label, tag=tag, limit=limit, page=current_page
+            )
             remaining_pages = next_response.meta.total_pages - current_page
             current_page = next_response.meta.page + 1
             prompt_ids.update({p.name for p in next_response.data})
@@ -51,7 +57,9 @@ class LangfuseService:
         limit = 50
 
         while True:
-            response = self._langfuse.api.prompts.list(label=label, limit=limit, page=current_page)
+            response = self._langfuse.api.prompts.list(
+                label=label, limit=limit, page=current_page
+            )
             metas = response.data
 
             if not metas:
@@ -59,13 +67,17 @@ class LangfuseService:
 
             for meta in metas:
                 if prompt_type:
-                    expected_type = PromptType.TEXT if prompt_type == "text" else PromptType.CHAT
+                    expected_type = (
+                        PromptType.TEXT if prompt_type == "text" else PromptType.CHAT
+                    )
                     if meta.type != expected_type:
                         continue
                 elif meta.type not in (PromptType.TEXT, PromptType.CHAT):
                     continue
 
-                langfuse_prompt_type = "text" if meta.type is PromptType.TEXT else "chat"
+                langfuse_prompt_type = (
+                    "text" if meta.type is PromptType.TEXT else "chat"
+                )
                 try:
                     prompt_client = self._langfuse.get_prompt(
                         meta.name,

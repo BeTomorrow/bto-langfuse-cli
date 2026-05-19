@@ -45,16 +45,23 @@ def prompt_pull(
     ],
     output_dir: Annotated[
         Path,
-        typer.Option("--output-dir", "-o", help="Directory to save the prompts to.", dir_okay=True, file_okay=False)
+        typer.Option(
+            "--output-dir",
+            "-o",
+            help="Directory to save the prompts to.",
+            dir_okay=True,
+            file_okay=False,
+        ),
     ] = Path("data/prompts"),
     prompt_type: Annotated[
         Literal["text", "chat"] | None,
-        typer.Option("--type", "-t", help="The type of prompt to pull or all if not specified."),
+        typer.Option(
+            "--type", "-t", help="The type of prompt to pull or all if not specified."
+        ),
     ] = None,
     prompt_format: Annotated[
-        Literal["md"],
-        typer.Option("--format", "-f", help="The output format.")
-    ] = "md"
+        Literal["md"], typer.Option("--format", "-f", help="The output format.")
+    ] = "md",
 ) -> None:
     """
     Pull prompt to filesystem from a given label and prompt type.
@@ -76,7 +83,9 @@ def prompt_pull(
 
     typer.echo(f"Pulling prompts with label '{label}'...")
 
-    for meta, prompt_client in langfuse.get_prompts_with_meta(label=label, prompt_type=prompt_type):
+    for meta, prompt_client in langfuse.get_prompts_with_meta(
+        label=label, prompt_type=prompt_type
+    ):
         try:
             out_path = exporter.export(meta, prompt_client, output_dir)
             if out_path:
