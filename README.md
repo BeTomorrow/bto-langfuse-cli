@@ -81,7 +81,6 @@ bto-langfuse-cli prompt pull <label> [type] [OPTIONS]
 
 **Options:**
 - `-o, --output-dir <DIRECTORY>`: Directory to save the prompt files to. Defaults to `data/prompts`.
-- `-f, --format <FORMAT>`: The output format. Currently only supports `md` (Markdown with YAML frontmatter). Defaults to `md`.
 
 **Output Format (`md`):**
 - **Text Prompts**: Saved as `.md` files containing a YAML frontmatter (with metadata like name, version, tags, labels, and last updated date) followed by the raw text prompt.
