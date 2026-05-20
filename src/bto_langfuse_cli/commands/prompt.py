@@ -58,10 +58,7 @@ def prompt_pull(
         typer.Option(
             "--type", "-t", help="The type of prompt to pull or all if not specified."
         ),
-    ] = None,
-    prompt_format: Annotated[
-        Literal["md"], typer.Option("--format", "-f", help="The output format.")
-    ] = "md",
+    ] = None
 ) -> None:
     """
     Pull prompt to filesystem from a given label and prompt type.
@@ -70,13 +67,8 @@ def prompt_pull(
       bto_langfuse-cli prompt pull dev -o data/prompts -t chat -- → pull all chat prompts tagged dev to data/prompts.
     """
     langfuse = LangfuseService()
+    exporter = MarkdownPromptExporter()
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    if prompt_format == "md":
-        exporter = MarkdownPromptExporter()
-    else:
-        typer.echo(f"Unsupported format: {prompt_format}", err=True)
-        raise typer.Exit(code=1)
 
     written = 0
     skipped = 0
