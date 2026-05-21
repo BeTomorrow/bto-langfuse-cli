@@ -1,6 +1,6 @@
 [project]
 name = "bto-langfuse-cli"
-version = "1.0.3"
+version = "1.0.4"
 description = "A set of CLI tools to interact with Langfuse, especially for prompt management."
 readme = "README.md"
 authors = [
