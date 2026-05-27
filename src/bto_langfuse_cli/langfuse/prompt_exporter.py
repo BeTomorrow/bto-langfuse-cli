@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 from pathlib import Path
+from typing import Any
+import yaml
 
 from langfuse.api import PromptType
 from langfuse.api.prompts.types.prompt_meta import PromptMeta
@@ -37,22 +39,6 @@ class MarkdownPromptExporter(PromptExporter):
     and XML section for Chat prompts.
     """
 
-    def _yaml_quote(self, s: str) -> str:
-        if s == "":
-            return '""'
-        if any(c in s for c in (":", "#", "\n", '"')) or s.strip() != s:
-            escaped = s.replace("\\", "\\\\").replace('"', '\\"')
-            return f'"{escaped}"'
-        return s
-
-    def _format_yaml_block_list(self, key: str, items: list[str]) -> str:
-        if not items:
-            return f"{key}: []"
-        lines = [f"{key}:"]
-        for item in items:
-            lines.append(f"  - {self._yaml_quote(item)}")
-        return "\n".join(lines)
-
     def _metadata_header(
         self,
         name: str,
@@ -60,16 +46,22 @@ class MarkdownPromptExporter(PromptExporter):
         prompt_type: str,
         labels: list[str],
         tags: list[str],
+        config: dict[str, Any],
         last_updated_at: datetime,
     ) -> str:
         lines = [
             "---",
-            f"name: {self._yaml_quote(name)}",
-            f"version: {version}",
-            f"type: {prompt_type}",
-            self._format_yaml_block_list("labels", labels),
-            self._format_yaml_block_list("tags", tags),
-            f"last_updated_at: {self._yaml_quote(last_updated_at.isoformat())}",
+            yaml.dump(
+                {
+                    "name": name,
+                    "version": version,
+                    "type": prompt_type,
+                    "labels": labels,
+                    "tags": tags,
+                    "config": config,
+                    "last_updated_at": last_updated_at.isoformat(),
+                }
+            ),
             "---",
         ]
         return "\n".join(lines) + "\n"
@@ -105,6 +97,7 @@ class MarkdownPromptExporter(PromptExporter):
             prompt_type=langfuse_prompt_type,
             labels=list(prompt_client.labels),
             tags=list(prompt_client.tags),
+            config=prompt_client.config,
             last_updated_at=meta.last_updated_at,
         )
 
